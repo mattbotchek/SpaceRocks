@@ -1,0 +1,6 @@
+x64/
+Debug/
+.vs/
+SpaceRocks.vcxproj
+SpaceRocks.vcxproj.filters
+SpaceRocks.vcxproj.user
