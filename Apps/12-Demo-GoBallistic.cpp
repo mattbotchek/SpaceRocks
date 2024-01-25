@@ -179,7 +179,7 @@ const char *usage = R"(
 
 int main(int ac, char **av) {
 	GLFWwindow *w = InitGLFW(100, 100, winWidth, winHeight, "Go Ballistic!");
-	string dir = "C:/Assets/";
+	string dir = "C:/repos/SpaceRocks/SpaceRocks/Assets/";
 	// read OBJ mesh files
 	square.Read(dir+"Models/Square.obj");
 	sphere.Read(dir+"Models/Sphere.obj");
@@ -189,7 +189,7 @@ int main(int ac, char **av) {
 	square.toWorld = Scale(2);
 	// position cannonball at end of cannon
 	ResetCannonball(cannonball.p, cannonball.v);
-	sphere.toWorld = Translate(cannonball.p)*Scale(.03f);
+	sphere.toWorld = Translate(cannonball.p)*Scale(.3f);
 	// callbacks
 	RegisterMouseMove(MouseMove);
 	RegisterMouseButton(MouseButton);
