@@ -1,3 +1,9 @@
+// This is the main entrypoint for SpaceRocks, it'll handle the setup of the "world" (or galaxy) setting up of gravity, and overall
+// handling of sprite interactions. All sprites, actions, and intersections will either pass through or be handled by this file. 
+// requires glad.h, glfw3.h, Draw.h, GLXtras.h, Sprite.h, and cmath (should already be present on system).
+
+// File Owners: Matthew Botchek, Maria Milkowski
+
 #include <glad.h>
 #include <GLFW/glfw3.h>
 #include "Draw.h"
@@ -41,9 +47,8 @@ void ApplyGravity(float gravity)
 
 void MoveActor(float speed) {
 	// apply rotation for "forward" movement not square movement
-
-	// Wonky AF and needs to be fixed, looking into the math LOL
 	float dx, dy;
+	// Convert actor rotation from degrees to radians
 	double actorRotation = actor.rotation * 3.14159 / 180;
 	dx = speed * cos(actorRotation);
 	dy = speed * sin(actorRotation);
