@@ -3,6 +3,7 @@
 #include "Draw.h"
 #include "GLXtras.h"
 #include "Sprite.h"
+#include <cmath>
 
 Sprite background, actor;
 bool hovering = false;
@@ -33,12 +34,25 @@ void MouseMove(float x, float y, bool leftDown, bool rightDown) {
 
 // Application
 
-void MoveActor(float dx, float dy) {
+void ApplyGravity(float gravity)
+{
+	actor.SetPosition(actor.position + vec2((float)0.0, gravity));
+}
+
+void MoveActor(float speed) {
+	// apply rotation for "forward" movement not square movement
+
+	// Wonky AF and needs to be fixed, looking into the math LOL
+	float dx, dy;
+	dx = speed * cos(actor.rotation);
+	dy = speed * sin(actor.rotation);
+
 	actor.SetPosition(actor.position + vec2(dx, dy));
 }
 
 void RotateActor(float angle)
 {
+	cout << actor.rotation << endl;
 	actor.SetRotation(actor.rotation + angle);
 }
 
@@ -47,15 +61,15 @@ void RotateActor(float angle)
 void TestKey()
 {
 	float d = .005f;
-	float roationalSpeed = 1000000;
-	if (key == GLFW_KEY_LEFT) RotateActor(d);
-	if (key == GLFW_KEY_RIGHT) RotateActor(-d);
-	if (key == GLFW_KEY_DOWN) MoveActor(0, -d);
-	if (key == GLFW_KEY_UP) MoveActor(0, d);
+	float roationalSpeed = 0.5;
+	if (key == GLFW_KEY_LEFT) RotateActor(roationalSpeed);
+	if (key == GLFW_KEY_RIGHT) RotateActor(-roationalSpeed);
+	if (key == GLFW_KEY_DOWN) MoveActor(-d);
+	if (key == GLFW_KEY_UP) MoveActor(d);
 }
 
 void CheckUser() {
-	if (KeyDown(key) && (float)(clock() - keydownTime) / CLOCKS_PER_SEC > .2f)
+	if (KeyDown(key) && (float)(clock() - keydownTime) / CLOCKS_PER_SEC > .01f)
 		TestKey();
 }
 
@@ -71,7 +85,7 @@ void Keyboard(int k, bool press, bool shift, bool control) {
 void StartGravity()
 {
 	float gravity = -0.0005;
-	MoveActor(0, gravity);
+	ApplyGravity(gravity);
 }
 
 void Resize(int width, int height) {
