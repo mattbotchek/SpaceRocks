@@ -37,14 +37,19 @@ void MoveActor(float dx, float dy) {
 	actor.SetPosition(actor.position + vec2(dx, dy));
 }
 
+void RotateActor(float angle)
+{
+	actor.SetRotation(actor.rotation + angle);
+}
 
 // Movement
 
 void TestKey()
 {
 	float d = .005f;
-	if (key == GLFW_KEY_LEFT) MoveActor(-d, 0);
-	if (key == GLFW_KEY_RIGHT) MoveActor(d, 0);
+	float roationalSpeed = 1000000;
+	if (key == GLFW_KEY_LEFT) RotateActor(d);
+	if (key == GLFW_KEY_RIGHT) RotateActor(-d);
 	if (key == GLFW_KEY_DOWN) MoveActor(0, -d);
 	if (key == GLFW_KEY_UP) MoveActor(0, d);
 }
@@ -62,16 +67,6 @@ void Keyboard(int k, bool press, bool shift, bool control) {
 		TestKey();
 	}
 }
-
-//void Keyboard(int key, bool press, bool shift, bool control) {
-//	if (press) {
-//		float d = .05f;
-//		if (key == GLFW_KEY_LEFT) MoveActor(-d, 0);
-//		if (key == GLFW_KEY_RIGHT) MoveActor(d, 0);
-//		if (key == GLFW_KEY_DOWN) MoveActor(0, -d);
-//		if (key == GLFW_KEY_UP) MoveActor(0, d);
-//	}
-//}
 
 void StartGravity()
 {
