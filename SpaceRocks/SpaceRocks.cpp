@@ -44,15 +44,15 @@ void MoveActor(float speed) {
 
 	// Wonky AF and needs to be fixed, looking into the math LOL
 	float dx, dy;
-	dx = speed * cos(actor.rotation);
-	dy = speed * sin(actor.rotation);
+	double actorRotation = actor.rotation * 3.14159 / 180;
+	dx = speed * cos(actorRotation);
+	dy = speed * sin(actorRotation);
 
 	actor.SetPosition(actor.position + vec2(dx, dy));
 }
 
 void RotateActor(float angle)
 {
-	cout << actor.rotation << endl;
 	actor.SetRotation(actor.rotation + angle);
 }
 
@@ -64,8 +64,8 @@ void TestKey()
 	float roationalSpeed = 0.5;
 	if (key == GLFW_KEY_LEFT) RotateActor(roationalSpeed);
 	if (key == GLFW_KEY_RIGHT) RotateActor(-roationalSpeed);
-	if (key == GLFW_KEY_DOWN) MoveActor(-d);
-	if (key == GLFW_KEY_UP) MoveActor(d);
+	if (key == GLFW_KEY_DOWN) MoveActor(d);
+	if (key == GLFW_KEY_UP) MoveActor(-d);
 }
 
 void CheckUser() {
