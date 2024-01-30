@@ -62,8 +62,8 @@ void Display() {
 int main(int ac, char **av) {
 	GLFWwindow *w = InitGLFW(100, 100, 600, 600, "Sprite Demo");
 	// read background, foreground
-	background.Initialize("C:/Assets/Images/Earth.tga");
-	actor.Initialize("C:/Assets/Images/Lily.tga");
+	background.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/earth.tga");
+	actor.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/shuttle.tga");
 	actor.SetScale(vec2(.4f, .4f));
 	// callbacks
 	RegisterMouseButton(MouseButton);

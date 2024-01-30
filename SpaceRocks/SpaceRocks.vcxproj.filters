@@ -54,5 +54,8 @@
     <ClCompile Include="SpaceRocks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Apps\6-Demo-Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

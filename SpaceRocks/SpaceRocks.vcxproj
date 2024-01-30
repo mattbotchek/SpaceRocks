@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Apps\6-Demo-Sprite.cpp" />
     <ClCompile Include="..\Lib\Camera.cpp" />
     <ClCompile Include="..\Lib\Draw.cpp" />
     <ClCompile Include="..\Lib\glad.c" />
