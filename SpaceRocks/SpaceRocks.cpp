@@ -11,6 +11,8 @@
 #include "Sprite.h"
 #include <cmath>
 
+
+
 Sprite background, actor;
 bool hovering = false;
 
@@ -113,6 +115,13 @@ int main(int ac, char** av) {
 	// Temp Image of earth I ripped from some site, meaning to find again but google history aint helpful. -Matt
 	background.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/earth.tga");
 
+	//start page loop
+	while (!glfwWindowShouldClose(w) && !(GetAsyncKeyState(VK_SPACE) & 0x80000000)) {
+		actor.Initialize("C:/repos/SpaceRocks/SpaceRocks/spaceRocksLogo.tga");
+		actor.Initialize("C:/repos/SpaceRocks/SpaceRocks/toPlayText.tga");
+	}
+
+
 	// Shuttle image from same site, temporary until we can make our own
 	actor.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/shuttle.tga");
 	actor.SetScale(vec2(.4f, .4f));
@@ -123,8 +132,14 @@ int main(int ac, char** av) {
 	RegisterResize(Resize);
 	RegisterKeyboard(Keyboard);
 	printf("drag mouse to move sprite; mouse wheel changes size\n");
+	
+
+	
+
 	// event loop
 	while (!glfwWindowShouldClose(w)) {
+		
+		
 		CheckUser();
 		Display();
 		StartGravity();
