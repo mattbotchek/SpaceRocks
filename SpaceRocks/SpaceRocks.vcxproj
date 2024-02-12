@@ -155,8 +155,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Apps\12-Demo-GoBallistic.cpp" />
-    <ClCompile Include="..\Apps\6-Demo-Sprite.cpp" />
     <ClCompile Include="..\Lib\Camera.cpp" />
     <ClCompile Include="..\Lib\Draw.cpp" />
     <ClCompile Include="..\Lib\glad.c" />
@@ -169,7 +167,14 @@
     <ClCompile Include="..\Lib\Sprite.cpp" />
     <ClCompile Include="..\Lib\Text.cpp" />
     <ClCompile Include="..\Lib\Widgets.cpp" />
+    <ClCompile Include="Planet.cpp" />
     <ClCompile Include="SpaceRocks.cpp" />
+    <ClCompile Include="WorldFrame.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Planet.h" />
+    <ClInclude Include="resources.h" />
+    <ClInclude Include="WorldFrame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
