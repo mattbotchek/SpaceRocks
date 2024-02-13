@@ -2,5 +2,5 @@ x64/
 Debug/
 .vs/
 Bin-MSVC-x86/
-SpaceRocks.vcxproj
-SpaceRocks.vcxproj.user
+SpaceRocks/SpaceRocks.vcxproj
+SpaceRocks/SpaceRocks.vcxproj.user
