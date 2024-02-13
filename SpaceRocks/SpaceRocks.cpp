@@ -113,6 +113,7 @@ void Display() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	background.Display();
 	actor.Display();
+	//death.Display();
 	glFlush();
 }
 
@@ -130,6 +131,9 @@ void SetupGameWorld()
 {
 	background.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/background.jpg");
 	actor.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/shuttle.png");
+	//death.InitializeGIF("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/DeathExplosion.gif", 10000000.0f);
+	//death.SetScale(vec2(0.15f, 0.15f));
+	//death.SetPosition(vec2(0, 0));
 	actor.SetScale(vec2(.05f, .05f));
 	actor.SetPosition(vec2(0.4, 0.4));
 

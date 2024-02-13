@@ -57,8 +57,8 @@ int main() {
 	RegisterMouseMove(MouseMove);
 	RegisterResize(Resize);
 	// read background, foreground sprites
-	background.Initialize("C:/Assets/Images/Earth.tga");
-	actor.Initialize("C:/Assets/Images/MattedNumber1.png");
+	background.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/sun.png");
+	actor.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/shuttle.png");
 	actor.SetScale(vec2(.5f, .5f));
 	printf("move and the sprite returns\n");
 	// event loop
