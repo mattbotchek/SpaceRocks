@@ -100,12 +100,12 @@ void Resize(int width, int height) {
 	glViewport(0, 0, width, height);
 }
 
-void MaintainGameWorld()
+void DisplayPlanets()
 {
-	planet.SetPlanet(vec2(-0.4, 0.4));
-	planets.push_back(planet);
-	planet2.SetPlanet(vec2(0.4, -0.4));
-	planets.push_back(planet2);
+	for (Planet x : planets)
+	{
+		x.Display();
+	}
 }
 
 void Display() {
@@ -126,37 +126,48 @@ void StartScreen()
 	glFlush();
 }
 
-int main(int ac, char** av) {
-	//// Start Screen
-	//GLFWwindow* startScreen = InitGLFW(100, 100, 600, 600, "Start Game");
-	//startbackground.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/background.jpg");
-	//logo.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/spaceRocksLogo.tga");
-	//playtext.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/toPlayText.tga");
-	////start page loop
-	//while (!glfwWindowShouldClose(startScreen) && !(GetAsyncKeyState(VK_SPACE) & 0x80000000)) {
-	//	StartScreen();
-	//	glfwSwapBuffers(startScreen);
-	//	glfwPollEvents();
-	//}
-
-	// Main Game
-
-	GLFWwindow* mainGame = InitGLFW(100, 100, 1000, 1000, "SpaceRocks");
-	// Own shuttle image
-	
+void SetupGameWorld()
+{
 	background.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/background.jpg");
 	actor.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/shuttle.png");
 	actor.SetScale(vec2(.05f, .05f));
 	actor.SetPosition(vec2(0.4, 0.4));
-	planet.SetPlanet(vec2(0, 0));
+
+	planet.initialize(vec2(-0.4,0.4), vec2(0.2, 0.2));
+	planets.push_back(planet);
+	planet2.initialize(vec2(0.4, -0.4), vec2(0.2, 0.2));
+	planets.push_back(planet2);
+}
+
+int main(int ac, char** av) {
+	// Start Screen
+	GLFWwindow* startScreen = InitGLFW(100, 100, 600, 600, "Start Game");
+	startbackground.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/background.jpg");
+	logo.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/spaceRocksLogo.tga");
+	playtext.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/toPlayText.tga");
+	//start page loop
+	while (!glfwWindowShouldClose(startScreen) && !(GetAsyncKeyState(VK_SPACE) & 0x80000000)) {
+		StartScreen();
+		glfwSwapBuffers(startScreen);
+		glfwPollEvents();
+	}
+	glfwTerminate();
+	// Main Game
+
+	GLFWwindow* mainGame = InitGLFW(100, 100, 1000, 1000, "SpaceRocks");
+	cout << "Created New Window" << endl;
+	glfwMakeContextCurrent(mainGame);
+	cout << "Made Current Context" << endl;
+	SetupGameWorld();
 
 	RegisterKeyboard(Keyboard);
 	
+	cout << "Entering Loop" << endl;
 	// event loop
 	while (!glfwWindowShouldClose(mainGame)) {
 		CheckUser();
 		Display();
-		MaintainGameWorld();
+		DisplayPlanets();
 		StartGravity();
 		glfwSwapBuffers(mainGame);
 		glfwPollEvents();

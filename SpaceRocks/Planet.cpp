@@ -6,11 +6,17 @@ Planet::Planet()
 	GravityReach = 0.5f;
 }
 
-void Planet::SetPlanet(vec2 p)
+
+void Planet::initialize(vec2 pos, vec2 scale)
 {
 	planetSprite.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/sun.png");
-	planetSprite.SetPosition(p);
-	planetSprite.SetScale(vec2(.2f, .2f));
+	planetSprite.SetPosition(pos);
+	planetSprite.SetScale(scale);
+	planetSprite.Display();
+}
+
+void Planet::Display()
+{
 	planetSprite.Display();
 }
 
@@ -32,8 +38,6 @@ float Planet::GetGravityReach()
 float Planet::GetGravitySpeed(double distance)
 {
 	double multiplier = GravityReach / distance;
-	cout << "Gravitational Multiplier:	" << multiplier << endl;
-	cout << "Gravitational Force:		" << multiplier * GravityStrength << endl;
 
 	return multiplier * GravityStrength;
 }
