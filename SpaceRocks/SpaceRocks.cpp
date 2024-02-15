@@ -4,47 +4,46 @@
 
 // File Owners: Matthew Botchek, Maria Milkowski
 
-#include <glad.h>
-#include <GLFW/glfw3.h>
-#include "Draw.h"
-#include "GLXtras.h"
-#include "Sprite.h"
-#include <cmath>
+#include "resources.h"
 
 
 
-Sprite background, actor;
+Sprite background, startbackground, actor, logo, playtext;
+vector <Planet> planets;
+Planet planet, planet2;
 bool hovering = false;
 
 // interaction
 int		key = 0;
 time_t	keydownTime = 0;
 
-// Mouse
-
-void MouseWheel(float spin) {
-	actor.Wheel(spin);
-}
-
-void MouseButton(float x, float y, bool left, bool down) {
-	if (left && down) {
-		if (actor.Hit(x, y))
-			printf("I've been hit!\n");
-		actor.Down(x, y);
-	}
-}
-
-void MouseMove(float x, float y, bool leftDown, bool rightDown) {
-	hovering = actor.Hit(x, y);
-	if (leftDown)
-		actor.Drag(x, y);
-}
 
 // Application
 
-void ApplyGravity(float gravity)
+double distance(double x1, double y1, double x2, double y2) {
+	return std::sqrt(std::pow((x2 - x1), 2) + std::pow((y2 - y1), 2));
+}
+
+void ApplyGravity(Planet lplanet)
 {
-	actor.SetPosition(actor.position + vec2((float)0.0, gravity));
+	float actorY, actorX, dx, dy, gx, gy, planetX, planetY;
+	actorX = actor.GetPosition()[0];
+	actorY = actor.GetPosition()[1];
+	planetX = lplanet.GetPosition()[0];
+	planetY = lplanet.GetPosition()[1];
+
+	dx = planetX - actorX;
+	dy = planetY - actorY;
+
+	double distanceToPlanet = distance(actorX, actorY, planetX, planetY);
+	double angleToPlanet = atan2(dy, dx);
+
+	float gStrength = lplanet.GetGravitySpeed(distanceToPlanet);
+
+	gx = gStrength * cos(angleToPlanet);
+	gy = gStrength * sin(angleToPlanet);
+
+	actor.SetPosition(actor.position + vec2(gx, gy));
 }
 
 void MoveActor(float speed) {
@@ -67,7 +66,7 @@ void RotateActor(float angle)
 
 void TestKey()
 {
-	float d = .005f;
+	float d = 0.0015;
 	float roationalSpeed = 0.5;
 	if (key == GLFW_KEY_LEFT) RotateActor(roationalSpeed);
 	if (key == GLFW_KEY_RIGHT) RotateActor(-roationalSpeed);
@@ -91,12 +90,22 @@ void Keyboard(int k, bool press, bool shift, bool control) {
 
 void StartGravity()
 {
-	float gravity = -0.0005;
-	ApplyGravity(gravity);
+	for (Planet x : planets)
+	{
+		ApplyGravity(x);
+	}
 }
 
 void Resize(int width, int height) {
 	glViewport(0, 0, width, height);
+}
+
+void DisplayPlanets()
+{
+	for (Planet x : planets)
+	{
+		x.Display();
+	}
 }
 
 void Display() {
@@ -104,46 +113,67 @@ void Display() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	background.Display();
 	actor.Display();
-	if (hovering)
-		actor.Outline(vec3(1, 1, 0));
+	//death.Display();
 	glFlush();
 }
 
+void StartScreen()
+{
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	startbackground.Display();
+	logo.Display();
+	playtext.Display();
+	glFlush();
+}
+
+void SetupGameWorld()
+{
+	background.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/background.jpg");
+	actor.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/shuttle.png");
+	//death.InitializeGIF("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/DeathExplosion.gif", 10000000.0f);
+	//death.SetScale(vec2(0.15f, 0.15f));
+	//death.SetPosition(vec2(0, 0));
+	actor.SetScale(vec2(.05f, .05f));
+	actor.SetPosition(vec2(0.4, 0.4));
+
+	planet.initialize(vec2(-0.4,0.4), vec2(0.2, 0.2));
+	planets.push_back(planet);
+	planet2.initialize(vec2(0.4, -0.4), vec2(0.2, 0.2));
+	planets.push_back(planet2);
+}
+
 int main(int ac, char** av) {
-	GLFWwindow* w = InitGLFW(100, 100, 600, 600, "Sprite Demo");
-	// read background, foreground
-	// Temp Image of earth I ripped from some site, meaning to find again but google history aint helpful. -Matt
-	background.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/earth.tga");
+	//// Start Screen
+	//GLFWwindow* startScreen = InitGLFW(100, 100, 600, 600, "Start Game");
+	//startbackground.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/background.jpg");
+	//logo.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/spaceRocksLogo.tga");
+	//playtext.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/toPlayText.tga");
+	////start page loop
+	//while (!glfwWindowShouldClose(startScreen) && !(GetAsyncKeyState(VK_SPACE) & 0x80000000)) {
+	//	StartScreen();
+	//	glfwSwapBuffers(startScreen);
+	//	glfwPollEvents();
+	//}
+	//glfwTerminate();	
+	// Main Game
 
-	//start page loop
-	while (!glfwWindowShouldClose(w) && !(GetAsyncKeyState(VK_SPACE) & 0x80000000)) {
-		actor.Initialize("C:/repos/SpaceRocks/SpaceRocks/spaceRocksLogo.tga");
-		actor.Initialize("C:/repos/SpaceRocks/SpaceRocks/toPlayText.tga");
-	}
+	GLFWwindow* mainGame = InitGLFW(100, 100, 1000, 1000, "SpaceRocks");
+	cout << "Created New Window" << endl;
+	glfwMakeContextCurrent(mainGame);
+	cout << "Made Current Context" << endl;
+	SetupGameWorld();
 
-
-	// Shuttle image from same site, temporary until we can make our own
-	actor.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/shuttle.tga");
-	actor.SetScale(vec2(.4f, .4f));
-	// callbacks
-	RegisterMouseButton(MouseButton);
-	RegisterMouseMove(MouseMove);
-	RegisterMouseWheel(MouseWheel);
-	RegisterResize(Resize);
 	RegisterKeyboard(Keyboard);
-	printf("drag mouse to move sprite; mouse wheel changes size\n");
 	
-
-	
-
+	cout << "Entering Loop" << endl;
 	// event loop
-	while (!glfwWindowShouldClose(w)) {
-		
-		
+	while (!glfwWindowShouldClose(mainGame)) {
 		CheckUser();
 		Display();
+		DisplayPlanets();
 		StartGravity();
-		glfwSwapBuffers(w);
+		glfwSwapBuffers(mainGame);
 		glfwPollEvents();
 	}
 }
