@@ -144,18 +144,18 @@ void SetupGameWorld()
 }
 
 int main(int ac, char** av) {
-	// Start Screen
-	GLFWwindow* startScreen = InitGLFW(100, 100, 600, 600, "Start Game");
-	startbackground.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/background.jpg");
-	logo.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/spaceRocksLogo.tga");
-	playtext.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/toPlayText.tga");
-	//start page loop
-	while (!glfwWindowShouldClose(startScreen) && !(GetAsyncKeyState(VK_SPACE) & 0x80000000)) {
-		StartScreen();
-		glfwSwapBuffers(startScreen);
-		glfwPollEvents();
-	}
-	glfwTerminate();
+	//// Start Screen
+	//GLFWwindow* startScreen = InitGLFW(100, 100, 600, 600, "Start Game");
+	//startbackground.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/background.jpg");
+	//logo.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/spaceRocksLogo.tga");
+	//playtext.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/toPlayText.tga");
+	////start page loop
+	//while (!glfwWindowShouldClose(startScreen) && !(GetAsyncKeyState(VK_SPACE) & 0x80000000)) {
+	//	StartScreen();
+	//	glfwSwapBuffers(startScreen);
+	//	glfwPollEvents();
+	//}
+	//glfwTerminate();	
 	// Main Game
 
 	GLFWwindow* mainGame = InitGLFW(100, 100, 1000, 1000, "SpaceRocks");
