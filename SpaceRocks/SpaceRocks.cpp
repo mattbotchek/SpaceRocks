@@ -8,7 +8,7 @@
 
 
 
-Sprite background, startbackground, actor, logo, playtext;
+Sprite background, actor, logo;
 vector <Planet> planets;
 Planet planet, planet2;
 bool hovering = false;
@@ -108,7 +108,7 @@ void DisplayPlanets()
 	}
 }
 
-void Display() {
+void gameDisplay() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	background.Display();
@@ -121,16 +121,15 @@ void StartScreen()
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	startbackground.Display();
 	logo.Display();
-	playtext.Display();
 	glFlush();
 }
 
 void SetupGameWorld()
 {
-	background.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/background.jpg");
-	actor.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/shuttle.png");
+	logo.Initialize("C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/startScreen.tga");
+	background.Initialize("C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/background.jpg");
+	actor.Initialize("C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/shuttle.png");
 	//death.InitializeGIF("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/DeathExplosion.gif", 10000000.0f);
 	//death.SetScale(vec2(0.15f, 0.15f));
 	//death.SetPosition(vec2(0, 0));
@@ -146,9 +145,7 @@ void SetupGameWorld()
 int main(int ac, char** av) {
 	//// Start Screen
 	//GLFWwindow* startScreen = InitGLFW(100, 100, 600, 600, "Start Game");
-	//startbackground.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/background.jpg");
-	//logo.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/spaceRocksLogo.tga");
-	//playtext.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/toPlayText.tga");
+
 	////start page loop
 	//while (!glfwWindowShouldClose(startScreen) && !(GetAsyncKeyState(VK_SPACE) & 0x80000000)) {
 	//	StartScreen();
@@ -157,6 +154,7 @@ int main(int ac, char** av) {
 	//}
 	//glfwTerminate();	
 	// Main Game
+	bool gameStart = false;
 
 	GLFWwindow* mainGame = InitGLFW(100, 100, 1000, 1000, "SpaceRocks");
 	cout << "Created New Window" << endl;
@@ -164,13 +162,23 @@ int main(int ac, char** av) {
 	cout << "Made Current Context" << endl;
 	SetupGameWorld();
 
+	
+
 	RegisterKeyboard(Keyboard);
 	
 	cout << "Entering Loop" << endl;
 	// event loop
 	while (!glfwWindowShouldClose(mainGame)) {
+		while (gameStart == false) {
+			StartScreen();
+			glfwSwapBuffers(mainGame);
+			if (GetAsyncKeyState(VK_SPACE) & 0x8001) {
+				gameStart = true;
+			}
+		}
+		
 		CheckUser();
-		Display();
+		gameDisplay();
 		DisplayPlanets();
 		StartGravity();
 		glfwSwapBuffers(mainGame);
