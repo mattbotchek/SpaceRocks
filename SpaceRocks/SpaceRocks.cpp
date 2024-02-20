@@ -8,7 +8,7 @@
 
 
 
-Sprite background, actor, logo;
+Sprite background, actor, logo, endScreen;
 vector <Planet> planets;
 Planet planet, planet2;
 bool hovering = false;
@@ -117,6 +117,14 @@ void gameDisplay() {
 	glFlush();
 }
 
+void EndScreen()
+{
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	endScreen.Display();
+	glFlush();
+}
+
 void StartScreen()
 {
 	glEnable(GL_BLEND);
@@ -128,6 +136,7 @@ void StartScreen()
 void SetupGameWorld()
 {
 	logo.Initialize("C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/startScreen.tga");
+	endScreen.Initialize("C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/gameover.tga");
 	background.Initialize("C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/background.jpg");
 	actor.Initialize("C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/shuttle.png");
 	//death.InitializeGIF("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/DeathExplosion.gif", 10000000.0f);
@@ -143,17 +152,6 @@ void SetupGameWorld()
 }
 
 int main(int ac, char** av) {
-	//// Start Screen
-	//GLFWwindow* startScreen = InitGLFW(100, 100, 600, 600, "Start Game");
-
-	////start page loop
-	//while (!glfwWindowShouldClose(startScreen) && !(GetAsyncKeyState(VK_SPACE) & 0x80000000)) {
-	//	StartScreen();
-	//	glfwSwapBuffers(startScreen);
-	//	glfwPollEvents();
-	//}
-	//glfwTerminate();	
-	// Main Game
 	bool gameStart = false;
 
 	GLFWwindow* mainGame = InitGLFW(100, 100, 1000, 1000, "SpaceRocks");
