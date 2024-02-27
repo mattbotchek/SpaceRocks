@@ -7,9 +7,15 @@
 #include "resources.h"
 
 
+const string BASE_PATH = "C:/repos/SpaceRocks/SpaceRocks/Assets/";
 
 Sprite background, actor, logo, endScreen;
-vector <Planet> planets;
+vector<Sprite *> sprites;
+WorldGenerator gen; 
+WorldFrame** frames;
+WorldFrame currentFrame;
+int actorFrameX, actorFrameY, frameMax;
+vector<Planet> planets;
 Planet planet, planet2;
 bool hovering = false;
 
@@ -47,6 +53,26 @@ void ApplyGravity(Planet lplanet)
 }
 
 void MoveActor(float speed) {
+	if (actor.position[0] > 1 && actorFrameX < frameMax)
+	{
+		actorFrameX++;
+		actor.SetPosition(vec2(-float(actor.position[0] - 0.1), actor.position[1]));
+	}
+	if (actor.position[0] < -1 && actorFrameX > 0)
+	{
+		actorFrameX--;
+		actor.SetPosition(vec2(-float(actor.position[0] + 0.1), actor.position[1]));
+	}
+	if (actor.position[1] > 1 && actorFrameY < frameMax)
+	{
+		actorFrameY++;
+		actor.SetPosition(vec2(actor.position[0], -float(actor.position[1] - 0.1)));
+	}
+	if (actor.position[1] < -1 && actorFrameY > 0)
+	{
+		actorFrameY--;
+		actor.SetPosition(vec2(actor.position[0], -float(actor.position[1] + 0.1)));
+	}
 	// apply rotation for "forward" movement not square movement
 	float dx, dy;
 	// Convert actor rotation from degrees to radians
@@ -114,6 +140,9 @@ void gameDisplay() {
 	background.Display();
 	actor.Display();
 	//death.Display();
+	currentFrame = frames[actorFrameX][actorFrameY];
+	planets = currentFrame.GetPlanets();
+	DisplayPlanets();
 	glFlush();
 }
 
@@ -135,36 +164,32 @@ void StartScreen()
 
 void SetupGameWorld()
 {
-	logo.Initialize("C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/startScreen.tga");
-	endScreen.Initialize("C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/gameover.tga");
-	background.Initialize("C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/background.jpg");
-	actor.Initialize("C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/shuttle.png");
-	//death.InitializeGIF("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/DeathExplosion.gif", 10000000.0f);
-	//death.SetScale(vec2(0.15f, 0.15f));
-	//death.SetPosition(vec2(0, 0));
+	logo.Initialize(BASE_PATH + "/Images/startScreen.tga");
+	endScreen.Initialize(BASE_PATH + "/Images/gameover.tga");
+	background.Initialize(BASE_PATH + "/Images/background.jpg");
+	actor.Initialize(BASE_PATH + "/Images/shuttle.png");
 	actor.SetScale(vec2(.05f, .05f));
-	actor.SetPosition(vec2(0.4, 0.4));
-
-	planet.initialize(vec2(-0.4,0.4), vec2(0.2, 0.2));
-	planets.push_back(planet);
-	planet2.initialize(vec2(0.4, -0.4), vec2(0.2, 0.2));
-	planets.push_back(planet2);
+	actor.SetPosition(vec2(0.0, 0.0));
 }
 
 int main(int ac, char** av) {
 	bool gameStart = false;
 
 	GLFWwindow* mainGame = InitGLFW(100, 100, 1000, 1000, "SpaceRocks");
-	cout << "Created New Window" << endl;
 	glfwMakeContextCurrent(mainGame);
-	cout << "Made Current Context" << endl;
+
+	sprites.push_back(&actor);
+	
+	cout << "Starting up world generator" << endl;
+	frames = gen.getData();
+	actorFrameX = 1;
+	actorFrameY = 1;
+	frameMax = 2;
+	cout << "Finished World Gen" << endl;
 	SetupGameWorld();
-
 	
-
 	RegisterKeyboard(Keyboard);
-	
-	cout << "Entering Loop" << endl;
+
 	// event loop
 	while (!glfwWindowShouldClose(mainGame)) {
 		while (gameStart == false) {
@@ -177,8 +202,7 @@ int main(int ac, char** av) {
 		
 		CheckUser();
 		gameDisplay();
-		DisplayPlanets();
-		StartGravity();
+		//StartGravity();
 		glfwSwapBuffers(mainGame);
 		glfwPollEvents();
 	}

@@ -1,5 +1,5 @@
 #pragma once
-#include "resources.h"
+#include "Sprite.h"
 
 class Planet
 {

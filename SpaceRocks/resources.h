@@ -12,9 +12,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <vector>
 
 // Local Libs
 #include "Draw.h"
 #include "Sprite.h"
 #include "Planet.h"
 #include "WorldFrame.h"
+#include "WorldGenerator.h"

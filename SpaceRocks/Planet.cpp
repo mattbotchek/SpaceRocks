@@ -12,7 +12,6 @@ void Planet::initialize(vec2 pos, vec2 scale)
 	planetSprite.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/sun.png");
 	planetSprite.SetPosition(pos);
 	planetSprite.SetScale(scale);
-	planetSprite.Display();
 }
 
 void Planet::Display()
