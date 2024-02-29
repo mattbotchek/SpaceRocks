@@ -1,7 +1,8 @@
 #include "WorldFrame.h"
 
 WorldFrame::WorldFrame()
-{ }
+{
+}
 
 void WorldFrame::AddPlanet(Planet planet)
 {
