@@ -1,28 +1,19 @@
 #include "Planet.h"
+//
+//Planet::Planet()
+//{ 
+//	GravityStrength = 0.0005f;
+//	GravityReach = 0.5f;
+//}
 
-Planet::Planet()
-{ 
+
+void Planet::init(vec2 pos, vec2 scale)
+{
 	GravityStrength = 0.0005f;
 	GravityReach = 0.5f;
-}
-
-
-void Planet::initialize(vec2 pos, vec2 scale)
-{
-	planetSprite.Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/sun.png");
-	planetSprite.SetPosition(pos);
-	planetSprite.SetScale(scale);
-	planetSprite.Display();
-}
-
-void Planet::Display()
-{
-	planetSprite.Display();
-}
-
-vec2 Planet::GetPosition()
-{
-	return planetSprite.GetPosition();
+	Initialize("C:/repos/SpaceRocks/SpaceRocks/Assets/Images/sun.png", -0.5);
+	SetPosition(pos);
+	SetScale(scale);
 }
 
 float Planet::GetGravityStrength()
