@@ -12,6 +12,8 @@ public:
 
 private:
 	//Sprite planetSprite;
+	string GetRandomPlanet();
+	int GetRandomNumber();
 	float GravityStrength;
 	float GravityReach;
 };

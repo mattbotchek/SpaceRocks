@@ -13,6 +13,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <vector>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 // Local Libs
 #include "Draw.h"
