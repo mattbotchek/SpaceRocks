@@ -15,6 +15,7 @@ const string BASE_PATH = "C:/repos/SpaceRocks/SpaceRocks/Assets/";
 Sprite background, actor, death, logo, endScreen;
 bool playerDead = false;
 Planet planet;
+Astroid astroid1, astroid2;
 
 // WorldFrame and Generation
 WorldGenerator gen; 
@@ -63,6 +64,22 @@ void ApplyGravity(Planet lplanet)
 	gy = gStrength * sin(angleToPlanet);
 
 	actor.SetPosition(actor.position + vec2(gx, gy));
+}
+
+void SendAstroids()
+{
+	bool SendAstroids = true;
+
+	if (SendAstroids)
+	{
+		astroid1.init(vec2(1.0, 1.0), vec2(0.15, 0.15));
+		astroid1.init(vec2(-1.0, 1.0), vec2(0.15, 0.15));
+	}
+	else
+	{
+		astroid1.Move(actor);
+		astroid2.Move(actor);
+	}
 }
 
 void MoveActor(float speed) {
@@ -244,6 +261,8 @@ void SetupGameWorld()
 }
 
 int main(int ac, char** av) {
+	srand(time(NULL));
+
 	bool gameStart = false;
 
 	GLFWwindow* mainGame = InitGLFW(100, 100, 1000, 1000, "SpaceRocks");
@@ -279,6 +298,7 @@ int main(int ac, char** av) {
 		}
 
 		StartGravity();
+		SendAstroids();
 		TestKey();
 		glfwSwapBuffers(mainGame);
 		glfwPollEvents();

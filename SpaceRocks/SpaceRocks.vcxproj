@@ -168,12 +168,14 @@
     <ClCompile Include="..\Lib\Sprite.cpp" />
     <ClCompile Include="..\Lib\Text.cpp" />
     <ClCompile Include="..\Lib\Widgets.cpp" />
+    <ClCompile Include="Astroid.cpp" />
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="SpaceRocks.cpp" />
     <ClCompile Include="WorldFrame.cpp" />
     <ClCompile Include="WorldGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Astroid.h" />
     <ClInclude Include="Planet.h" />
     <ClInclude Include="resources.h" />
     <ClInclude Include="WorldFrame.h" />
