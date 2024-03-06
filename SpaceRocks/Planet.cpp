@@ -25,22 +25,22 @@ string Planet::GetRandomPlanet()
 {
 	int num = GetRandomNumber();
 	if (num == 1){
-		return "C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/planet1.tga";
+		return "C:/repos/SpaceRocks/SpaceRocks/Assets/Images/planet1.tga";
 	}
 	else if (num == 2){
-		return "C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/planet2.tga";
+		return "C:/repos/SpaceRocks/SpaceRocks/Assets/Images/planet2.tga";
 	}
 	else if (num == 3){
-		return "C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/planet3.tga";
+		return "C:/repos/SpaceRocks/SpaceRocks/Assets/Images/planet3.tga";
 	}
 	else if (num == 4){
-		return "C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/planet4.tga";
+		return "C:/repos/SpaceRocks/SpaceRocks/Assets/Images/planet4.tga";
 	}
 	else if (num == 5){
-		return "C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/planet5.tga";
+		return "C:/repos/SpaceRocks/SpaceRocks/Assets/Images/planet5.tga";
 	}
 	else{
-		return "C:/Users/miami/SpaceRocks/SpaceRocks/Assets/Images/planet6.tga";
+		return "C:/repos/SpaceRocks/SpaceRocks/Assets/Images/planet6.tga";
 	}
 }
 

@@ -15,7 +15,10 @@ const string BASE_PATH = "C:/repos/SpaceRocks/SpaceRocks/Assets/";
 Sprite background, actor, death, logo, endScreen;
 bool playerDead = false;
 Planet planet;
-Astroid astroid1, astroid2;
+Asteroid asteroid1, asteroid2, asteroid3, asteroid4, asteroid5, asteroid6;
+vector<Asteroid> asts;
+vector<Asteroid *> asteroids;
+int deathFrames = 0;
 
 // WorldFrame and Generation
 WorldGenerator gen; 
@@ -27,7 +30,6 @@ bool frameChanged = true;
 
 // Hit detection
 vec2 shuttleSensors[] = { {0.0f,-1.0f}, { 0.0f, 1.0f}, { -1.0f, 0.0f }, { 1.0f, 0.0f} };
-vec3 red(1, 0, 0), grn(0, .5f, 0), yel(1, 1, 0);
 
 // Key Input
 extern std::unordered_map<int, time_t> kb = {};
@@ -39,6 +41,19 @@ bool gravityEnabled = true;
 bool gameRunning = true;
 
 // Application
+
+vec3 Probe(vec2 ndc) {
+	// ndc (normalized device coords) lower left (-1,-1) to upper right (1,1)
+	// return screen-space s, with s.z depth value at pixel (s.x, s.y)
+	int4 vp = VP();
+	vec3 s(vp[0] + (ndc.x + 1) * vp[2] / 2, vp[1] + (ndc.y + 1) * vp[3] / 2, 0);
+	DepthXY((int)s.x, (int)s.y, s.z);
+	return s;
+}
+
+vec3 Probe(vec2 v, mat4 m) {
+	return Probe(Vec2(m * vec4(v, 0, 1)));
+}
 
 double distance(double x1, double y1, double x2, double y2) {
 	return std::sqrt(std::pow((x2 - x1), 2) + std::pow((y2 - y1), 2));
@@ -68,17 +83,26 @@ void ApplyGravity(Planet lplanet)
 
 void SendAstroids()
 {
-	bool SendAstroids = true;
-
-	if (SendAstroids)
+	for (Asteroid *x : asteroids)
 	{
-		astroid1.init(vec2(1.0, 1.0), vec2(0.15, 0.15));
-		astroid1.init(vec2(-1.0, 1.0), vec2(0.15, 0.15));
-	}
-	else
-	{
-		astroid1.Move(actor);
-		astroid2.Move(actor);
+		if (x->IsAlive())
+		{
+			if (x->position[0] <= 1.0 && x->position[1] <= 1.0 && x->position[0] >= -1.0 && x->position[1] >= -1.0)
+			{
+				x->Display();
+				x->Move();
+			}
+			else
+			{
+				x->SetAlive(false);
+			}
+		}
+		else
+		{
+			x->SetAngle(vec2(actor.position[0], actor.position[1]));
+			x->Spawn();
+			x->SetAlive(true);
+		}
 	}
 }
 
@@ -167,20 +191,8 @@ void DisplayPlanets()
 	}
 }
 
-vec3 Probe(vec2 ndc) {
-	// ndc (normalized device coords) lower left (-1,-1) to upper right (1,1)
-	// return screen-space s, with s.z depth value at pixel (s.x, s.y)
-	int4 vp = VP();
-	vec3 s(vp[0] + (ndc.x + 1) * vp[2] / 2, vp[1] + (ndc.y + 1) * vp[3] / 2, 0);
-	DepthXY((int)s.x, (int)s.y, s.z);
-	return s;
-}
-
-vec3 Probe(vec2 v, mat4 m) {
-	return Probe(Vec2(m * vec4(v, 0, 1)));
-}
-
 void gameDisplay() {
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_DEPTH_TEST);
@@ -202,9 +214,14 @@ void gameDisplay() {
 	if (playerDead)
 	{
 		death.SetPosition(vec2(actor.position[0], actor.position[1]));
-		death.Display();
+		
+		if (deathFrames == death.nFrames * 6)
+		{
+			gameRunning = false;
+		}
 
-		gameRunning = false;
+		death.Display();
+		deathFrames++;
 	}
 	else {
 		actor.Display();
@@ -222,6 +239,7 @@ void gameDisplay() {
 	{
 		if (abs(shuttleProbes[i].z - planets[0].z) < 0.05f)
 		{
+			cout << abs(shuttleProbes[i].z - asteroid1.z) << endl;
 			playerDead = true;
 			gravityEnabled = false;
 		}
@@ -258,6 +276,13 @@ void SetupGameWorld()
 	death.InitializeGIF(BASE_PATH + "Images/DeathExplosion.gif");
 	death.SetScale(vec2(0.15f, 0.15f));
 	death.SetPosition(vec2(actor.position[0], actor.position[1]));
+
+	asteroids.push_back(&asteroid1);
+	asteroids.push_back(&asteroid2);
+	asteroids.push_back(&asteroid3);
+	asteroids.push_back(&asteroid4);
+	asteroids.push_back(&asteroid5);
+	asteroids.push_back(&asteroid6);
 }
 
 int main(int ac, char** av) {
@@ -291,14 +316,14 @@ int main(int ac, char** av) {
 		if (gameRunning)
 		{
 			gameDisplay();
+			StartGravity();
+			SendAstroids();
 		}
 		else
 		{
 			EndScreen();
 		}
 
-		StartGravity();
-		SendAstroids();
 		TestKey();
 		glfwSwapBuffers(mainGame);
 		glfwPollEvents();
