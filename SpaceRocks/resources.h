@@ -21,5 +21,6 @@
 #include "Draw.h"
 #include "Sprite.h"
 #include "Planet.h"
+#include "Astroid.h"
 #include "WorldFrame.h"
 #include "WorldGenerator.h"
