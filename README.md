@@ -1,7 +1,7 @@
 Created by Matthew Botchek
 
-Simple file from years ago (back when I was first learning to program)
+Simple space based game using simple physics to pilot a spaceship around and explore
 
-Creates massive amounts of folders and files. 
+Was built for a intro to game dev class at Seattle University
 
-don't know why I'm keeping it, thought it was funny at the time. 
+Keeping for posterities sake. 
